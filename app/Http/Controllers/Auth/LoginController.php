@@ -27,7 +27,9 @@ class LoginController extends Controller
      * @var string
      */
 
-    protected $redirectTo = "/profil/2";
+     public function redirectPath() {
+        return '/profil/'. request()->user()->id;
+    }
 
     /**
      * Create a new controller instance.

@@ -30,7 +30,7 @@ class RegisterController extends Controller
      * @var string
      */
     public function redirectPath() {
-        return '/profile/'. request()->user()->id;
+        return '/profil/'. request()->user()->id;
     }
     /**
      * Create a new controller instance.

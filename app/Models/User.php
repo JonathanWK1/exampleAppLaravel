@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use illuminate\Database\Eloquent\Relations\HasOne;
 use illuminate\Database\Eloquent\Relations\HasMany;
+use illuminate\Database\Eloquent\Relations\belongsToMany;
 
 use Laravel\Sanctum\HasApiTokens;
 
@@ -64,9 +65,20 @@ class User extends Authenticatable
      */
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'user_id', 'id');
+        return $this->hasMany(Post::class, 'user_id', 'id')->orderBy('created_at','DESC');
     }
 
+    public function following(): belongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follow_relation_table', 
+        'followed_user_id', 'followers_user_id')->withTimestamps();
+    }
+
+    public function followers(): belongsToMany
+    {
+        return $this->belongsToMany(User::class, 'follow_relation_table', 
+         'followers_user_id','followed_user_id')->withTimestamps();
+    }
 
     protected static function boot(){
         parent::boot();

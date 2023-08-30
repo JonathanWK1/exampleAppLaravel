@@ -12,10 +12,12 @@
             </div>
             <div class="row">
                 <div>
-                    <img src="/storage/{{ $post->user->image }}" alt="" class="rounded-circle" style="width: 100px">
-                    <span style="padding-left:1rem">
-                        {{ $post->user->name }}
-                    </span>
+                    <a href="/profil/{{ $post->user->id }}">
+                        <img src="/storage/{{ $post->user->image }}" alt="" class="rounded-circle" style="width: 100px">
+                        <span style="padding-left:1rem" class=" text-black text-decoration-none ">
+                            {{ $post->user->name }}
+                        </span>
+                    </a>
                 </div>
                 <div style="padding:1rem">
                     @can('update',$post)

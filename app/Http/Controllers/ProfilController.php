@@ -38,7 +38,8 @@ class ProfilController extends Controller
      */
     public function show(User $User)
     {
-        return view('Profil/profil',['user'=> $User]);
+        $follow = (auth()->user()) ? auth()->user()->following->contains($User->id) : false;
+        return view('Profil/profil',['user'=> $User, 'follow' => $follow]);
         //
     }
 
@@ -75,7 +76,7 @@ class ProfilController extends Controller
         
         $User->profil->update($data);
 
-        return view("Profil/profil",['user'=> $User]);
+        return redirect('/profil/'.$User->id);
     }
 
     /**
