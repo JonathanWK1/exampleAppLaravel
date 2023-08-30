@@ -17,8 +17,10 @@ const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
 import FollowButton from './components/FollowButton.vue';
+import LikeButton from './components/LikeButton.vue';
 app.component('example-component', ExampleComponent);
 app.component('follow-button', FollowButton);
+app.component('like-button', LikeButton);
 
 /**
  * The following block of code may be used to automatically register your

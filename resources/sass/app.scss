@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+@import 'fa/fontawesome.scss';
+@import 'fa/brands.scss';
+
+@import 'fa/regular.scss';
+@import 'fa/solid.scss';
+
+
+a:link{
+    text-decoration: none!important;
+    color: black;
+  }
+a{
+    color: black;
+}
+img{
+  aspect-ratio: 1;
+}

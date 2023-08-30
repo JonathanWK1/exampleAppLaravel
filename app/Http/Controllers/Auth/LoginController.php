@@ -28,7 +28,7 @@ class LoginController extends Controller
      */
 
      public function redirectPath() {
-        return '/profil/'. request()->user()->id;
+        return '/';
     }
 
     /**

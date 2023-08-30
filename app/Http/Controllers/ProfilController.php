@@ -6,6 +6,8 @@ use App\Models\Profil;
 use App\Http\Requests\StoreprofilRequest;
 use App\Http\Requests\UpdateprofilRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProfilController extends Controller
 {
@@ -38,8 +40,7 @@ class ProfilController extends Controller
      */
     public function show(User $User)
     {
-        $follow = (auth()->user()) ? auth()->user()->following->contains($User->id) : false;
-        return view('Profil/profil',['user'=> $User, 'follow' => $follow]);
+        return view('Profil/profil',['user'=> $User]);
         //
     }
 
@@ -68,8 +69,13 @@ class ProfilController extends Controller
         ]);
         
         if (request('image')){
+
             $imagePath = request('image')->store('profil','public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+            $image->save();
+            $oldImagePath = $User->image;
             $User->update(['image' => $imagePath]);
+            ProfilController::deleteOldImage($oldImagePath);
         }
         
         
@@ -78,7 +84,13 @@ class ProfilController extends Controller
 
         return redirect('/profil/'.$User->id);
     }
-
+    public function deleteOldImage(string $image)
+    {
+        if ($image == 'profil/images.jfif'){
+            return;
+        }
+        Storage::delete('public/'.$image);
+    }
     /**
      * Remove the specified resource from storage.
      */

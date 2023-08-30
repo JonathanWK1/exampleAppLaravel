@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class RegisterController extends Controller
 {
@@ -29,8 +30,9 @@ class RegisterController extends Controller
      *
      * @var string
      */
+    
     public function redirectPath() {
-        return '/profil/'. request()->user()->id;
+        return '/';
     }
     /**
      * Create a new controller instance.
@@ -68,12 +70,14 @@ class RegisterController extends Controller
         $imagePath = null;
         if (request("image")){
             $imagePath = request("image")->store('profil',"public");
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+            $image->save();
         }
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'image' => $imagePath['image'] ?? 'Profil/images.jfif'
+            'image' => $imagePath['image'] ?? 'profil/images.jfif'
         ]);
     }
 }

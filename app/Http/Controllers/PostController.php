@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -17,7 +19,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        if ($user){
+            $followedUser = $user->following()->pluck('followed_user_id');
+            $posts = Post::whereIn('user_id',$followedUser)->latest()->get();
+            if (count($posts) <= 0){
+                $posts = Post::where('user_id','<>',$user->id)->latest()->get();
+            }
+        }
+        else{
+            $posts = Post::latest()->get();
+        }
+        return view("home",['posts' => $posts]);
     }
 
     /**
@@ -39,6 +52,9 @@ class PostController extends Controller
         ]);
 
         $imagePath = request("image")->store("post","public");
+        $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+        $image->save();
+
         $data["image"] = $imagePath;
         $user = auth()->user();
         $user->posts()->create($data);
@@ -76,7 +92,11 @@ class PostController extends Controller
         
         if (request('image')){
             $imagePath = request('image')->store('post','public');
+            $oldImagePath = $post->image;
+            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1200,1200);
+            $image->save();
             $post->update(['image' => $imagePath]);
+            PostController::deleteOldImage($oldImagePath);
         }
         $post->update(
             ['caption' => $data["caption"]]
@@ -84,6 +104,10 @@ class PostController extends Controller
         $user = $post->user;
         return redirect('/profil/'.$user->id);
 
+    }
+    public function deleteOldImage(string $image)
+    {
+        Storage::delete('public/'.$image);
     }
 
     /**

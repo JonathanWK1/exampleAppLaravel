@@ -13,12 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [App\Http\Controllers\PostController::class, 'index'])->name('post.index');
 Auth::routes();
-
+Route::post('/like/{post}', [App\Http\Controllers\LikeController::class, 'store'])->name('like.store');
 Route::post('/follow/{user}', [App\Http\Controllers\FollowController::class, 'store'])->name('follow.store');
 
 Route::post('/post', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
@@ -31,5 +28,3 @@ Route::patch('/profil/{user}', [App\Http\Controllers\ProfilController::class, 'u
 
 Route::get('/profil/{user}/edit', [App\Http\Controllers\ProfilController::class, 'edit'])->name('profil.edit');
 Route::get('/profil/{user}', [App\Http\Controllers\ProfilController::class, 'show'])->name('profil.show');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

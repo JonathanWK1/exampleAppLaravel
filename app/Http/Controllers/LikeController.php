@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
-class HomeController extends Controller
+class LikeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -15,14 +16,8 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function store(Post $post)
     {
-        return view('home');
+        return auth()->user()->likedPost()->toggle($post);
     }
 }

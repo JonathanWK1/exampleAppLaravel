@@ -65,16 +65,34 @@ class User extends Authenticatable
      */
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'user_id', 'id')->orderBy('created_at','DESC');
+        return $this->hasMany(Post::class, 'user_id', 'id')->latest();
+    }
+    public function imagePath(): string{
+        return "/storage/".$this->image;
     }
 
-    public function following(): belongsToMany
+    public function isFollowing (User $user):bool{
+       return $this->following->contains($user->id);
+    }
+
+    public function followers(): belongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_relation_table', 
         'followed_user_id', 'followers_user_id')->withTimestamps();
     }
 
-    public function followers(): belongsToMany
+    public function isLiked(Post $post): bool
+    {
+
+        return $this->likedPost->contains($post->id);
+    }
+
+    public function likedPost(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'like_relation_table', 'user_id', 'post_id');
+    }
+
+    public function following(): belongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_relation_table', 
          'followers_user_id','followed_user_id')->withTimestamps();
