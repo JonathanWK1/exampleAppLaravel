@@ -2,7 +2,7 @@ name: Deploy Application
 
 on:
   push:
-    branches: ["staging"]
+    branches: ["main"]
 
 jobs:
   build:
@@ -25,30 +25,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./Docker/dockerfile/app.Dockerfile
+          file: .DockerFile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest
           
-  deployment:
-    needs: build
-    environment: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER }}
-          username: ${{ secrets.SERVER_USERNAME}}
-          password: ${{ secrets.SERVER_PASSWORD}}
-          port: ${{ secrets.SERVER_PORT  }}
-          script: |
-              docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }};
-              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest;
-              docker run -d -p ${{ vars.port }}:8000 \
-              -e DB_PORT=${{ secrets.DB_PORT }} \
-              -e DB_HOST=${{ secrets.DB_HOST }} \
-              -e DB_DATABASE=${{ secrets.DB_DATABASE }} \
-              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
-              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-              --name wkgram ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest;
-              
