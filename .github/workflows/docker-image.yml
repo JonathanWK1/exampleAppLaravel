@@ -24,8 +24,6 @@ jobs:
       - name: Build and push app image
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: DockerFile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest
           
