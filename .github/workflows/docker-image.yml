@@ -43,11 +43,14 @@ jobs:
           script: |
               docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }};
               docker pull ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest;
+              docker container stop wkgram;
+              docker container rm wkgram;
               docker run -d -p ${{ vars.port }}:8000 \
               -e DB_PORT=${{ secrets.DB_PORT }} \
               -e DB_HOST=${{ secrets.DB_HOST }} \
               -e DB_DATABASE=${{ secrets.DB_DATABASE }} \
               -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -v wkgram:/var/www/public/storage \
               --name wkgram ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest;
               
