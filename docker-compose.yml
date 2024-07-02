@@ -10,7 +10,6 @@ services:
                 - APP_ENV=${APP_ENV}
         environment:
             - APP_ENV=${APP_ENV}
-            - CONTAINER_ROLE=app
         working_dir: /var/www
         volumes:
             - ./:/var/www
@@ -19,7 +18,7 @@ services:
         depends_on:
             - database
 
-    # Database Server
+            # Database Server
     database:
         image: mysql:latest
         ports:
