@@ -53,4 +53,5 @@ jobs:
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
               -v wkgram:/var/www/public/storage \
               --name wkgram ${{ secrets.DOCKERHUB_USERNAME }}/wkgram:latest;
+              docker image prune -f;
               
