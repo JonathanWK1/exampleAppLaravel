@@ -38,6 +38,12 @@ update_env_var "DB_PASSWORD" "${DB_PASSWORD}"
 # sed -i "s/DB_PORT=.*/DB_PORT=${DB_PORT}/" /var/www/.env
 # sed -i "s/DB_HOST=.*/DB_HOST=${DB_HOST}/" /var/www/.env
 # sed -i "s/DB_DATABASE=.*/DB_DATABASE=${DB_DATABASE}/" /var/www/.env
+apt get-install -y npm
+
+composer install -n
+npm install
+
+npm run build
 
 php artisan migrate
 php artisan key:generate
