@@ -42,6 +42,8 @@ update_env_var() {
   fi
 }
 
+npm run build
+
 update_env_var "DB_HOST" "${DB_HOST}"
 update_env_var "DB_PORT" "${DB_PORT}"
 update_env_var "DB_DATABASE" "${DB_DATABASE}"
