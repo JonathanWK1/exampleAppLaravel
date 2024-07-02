@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Check if npm is installed
-if ! command -v npm &> /dev/null; then
-  echo "npm could not be found. Installing npm..."
-  apt-get install -y npm
-else
-  echo "npm is already installed."
-fi
+# Check if npm is installed mendingan install di docker image supaya wktu docker run ga lama
+# if ! command -v npm &> /dev/null; then
+#   echo "npm could not be found. Installing npm..."
+#   apt-get install -y npm
+# else
+#   echo "npm is already installed."
+# fi
 
 if [ ! -f "vendor/autoload.php" ]; then
     composer install --no-progress --no-interaction
