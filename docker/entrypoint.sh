@@ -56,14 +56,14 @@ update_env_var "DB_PASSWORD" "${DB_PASSWORD}"
 # sed -i "s/DB_DATABASE=.*/DB_DATABASE=${DB_DATABASE}/" /var/www/.env
 
 # npm run build
-php artisan migrate --force
-php artisan key:generate
-cd public
-rm -r storage
-cd ..
-php artisan storage:link
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
+# php artisan migrate --force
+# php artisan key:generate
+# cd public
+# rm -r storage
+# cd ..
+# php artisan storage:link
+# php artisan cache:clear
+# php artisan config:clear
+# php artisan route:clear
 php artisan serve --port=$PORT --host=0.0.0.0 --env=.env
 exec docker-php-entrypoint "$@"
