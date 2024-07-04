@@ -56,7 +56,7 @@ update_env_var "DB_PASSWORD" "${DB_PASSWORD}"
 # sed -i "s/DB_DATABASE=.*/DB_DATABASE=${DB_DATABASE}/" /var/www/.env
 
 # npm run build
-php artisan migrate
+php artisan migrate --force
 php artisan key:generate
 cd public
 rm -r storage
