@@ -58,10 +58,10 @@ update_env_var "DB_PASSWORD" "${DB_PASSWORD}"
 # npm run build
 php artisan migrate --force
 php artisan key:generate
-cd public
-rm -r storage
-cd ..
-php artisan storage:link
+# cd public
+# rm -r storage
+# cd ..
+# php artisan storage:link
 # php artisan cache:clear
 # php artisan config:clear
 # php artisan route:clear
