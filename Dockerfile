@@ -11,7 +11,7 @@ FROM composer:2.5.8 AS composer
 WORKDIR /var/www
 COPY --from=node /var/www/ . 
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install
 
 FROM php:8.2-fpm AS php
 
