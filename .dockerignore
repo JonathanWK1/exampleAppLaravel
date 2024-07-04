@@ -8,7 +8,6 @@ storage/framework/cache/*
 storage/framework/sessions/*
 storage/framework/views/*
 storage/logs/*
-vendor
 Dockerfile
 docker-compose.yml
 .dockerignore

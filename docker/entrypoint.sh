@@ -8,16 +8,17 @@
 #   echo "npm is already installed."
 # fi
 
-if [ ! -f "vendor/autoload.php" ]; then
-    composer install --no-progress --no-interaction
-fi
+# if [ ! -f "vendor/autoload.php" ]; then
+#     echo "installing composer"
+#     composer install --no-progress --no-interaction
+# fi
 
-if [ ! -d "node_modules" ]; then
-  echo "node_modules directory does not exist. Running npm install..."
-  npm install
-else
-  echo "node_modules directory already exists. Skipping npm install."
-fi
+# if [ ! -d "node_modules" ]; then
+#   echo "node_modules directory does not exist. Running npm install..."
+#   npm install
+# else
+#   echo "node_modules directory already exists. Skipping npm install."
+# fi
 
 if [ ! -f ".env" ]; then
     echo "Creating env file"
@@ -42,8 +43,6 @@ update_env_var() {
   fi
 }
 
-npm run build
-
 update_env_var "DB_HOST" "${DB_HOST}"
 update_env_var "DB_PORT" "${DB_PORT}"
 update_env_var "DB_DATABASE" "${DB_DATABASE}"
@@ -56,6 +55,7 @@ update_env_var "DB_PASSWORD" "${DB_PASSWORD}"
 # sed -i "s/DB_HOST=.*/DB_HOST=${DB_HOST}/" /var/www/.env
 # sed -i "s/DB_DATABASE=.*/DB_DATABASE=${DB_DATABASE}/" /var/www/.env
 
+# npm run build
 php artisan migrate
 php artisan key:generate
 cd public
