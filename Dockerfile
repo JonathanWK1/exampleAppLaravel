@@ -47,4 +47,6 @@ COPY --from=composer /var/www/ .
 RUN apt-get clean
 RUN chmod +x docker/entrypoint.sh
 
+RUN php artisan storage:link
+
 ENTRYPOINT [ "docker/entrypoint.sh" ]
