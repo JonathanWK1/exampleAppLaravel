@@ -33,6 +33,14 @@ class PostController extends Controller
         return view("home",['posts' => $posts]);
     }
 
+    public function get(){
+        $req = request()->all();
+
+        $posts = Post::orderBy('id', 'DESC')->offset($req["offset"] ?? 0)->limit($req["limit"] ?? 10)->get();
+
+        return $posts;
+    }
+
     /**
      * Show the form for creating a new resource.
      */
